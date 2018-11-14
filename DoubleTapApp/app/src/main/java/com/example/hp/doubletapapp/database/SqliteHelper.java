@@ -16,7 +16,7 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + WordEntry.TABLE_NAME + " (" +
-                    WordEntry._ID + " INTEGER PRIMARY KEY," +
+                    WordEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
                     WordEntry.COLUMN_NAME_TITLE + " TEXT,"
                     + COLUMN_TIMESTAMP + " DATETIME DEFAULT CURRENT_TIMESTAMP" + " )";
 

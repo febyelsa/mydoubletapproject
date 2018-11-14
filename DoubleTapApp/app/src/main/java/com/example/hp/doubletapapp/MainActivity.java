@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
             Bundle args = new Bundle();
             args.putParcelable(Constants.mEditItem, events.getItem());
-            dialogFragment = FragmentUtils.showBottomDialogFragment(getSupportFragmentManager(), "Add word", args);
+            dialogFragment = FragmentUtils.showBottomDialogFragment(getSupportFragmentManager(), "Edit word", args);
 
         }
     }
