@@ -77,6 +77,7 @@ public class AddWordViewModel extends AndroidViewModel {
         @Override
         protected String doInBackground(WordEntity... wordEntities) {
             if (selectedItem!=null && !selectedItem.getWord().isEmpty()) {
+                selectedItem.setWord(word);
                 wordRepository.updateWord(selectedItem);
                 return null;
             }

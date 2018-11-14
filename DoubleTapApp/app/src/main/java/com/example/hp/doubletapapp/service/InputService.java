@@ -9,8 +9,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
 import android.widget.ImageView;
 
@@ -20,6 +21,9 @@ import com.example.hp.doubletapapp.ui.adapter.SuggestionsAdapter;
 
 public class InputService extends InputMethodService implements KeyboardView.OnKeyboardActionListener,View.OnClickListener {
 
+    private static final int mViewModeKeyBoard = 1;
+    private static final int mViewModeSuggestions = 2;
+
     private View candidateView;
     private KeyboardView keyboardView;
     private Keyboard keyboard;
@@ -28,6 +32,7 @@ public class InputService extends InputMethodService implements KeyboardView.OnK
     private ImageView navigateToSuggestions;
     private ImageView navigateToKeyBoard;
     private SuggestionsAdapter suggestionsAdapter;
+    private static int mViewMode = mViewModeKeyBoard;
 
 
     @Override
@@ -37,7 +42,6 @@ public class InputService extends InputMethodService implements KeyboardView.OnK
 
         setUpKeyBoardView();
         wordRepository = new WordRepository(getApplication());
-
 
         return keyboardView;
 
@@ -55,10 +59,12 @@ public class InputService extends InputMethodService implements KeyboardView.OnK
     public View onCreateCandidatesView() {
 
         candidateView = getLayoutInflater().inflate(R.layout.candidate_view, null);
+
         setCandidatesView(candidateView);
         setCandidatesViewShown(false);
         setUpCandidateView();
         setUpSuggestionsList();
+
         return candidateView;
 
     }
@@ -96,6 +102,13 @@ public class InputService extends InputMethodService implements KeyboardView.OnK
                     char code = (char) primaryCode;
                     inputConnection.commitText(String.valueOf(code), 1);
                     setCandidatesViewShown(true);
+                    candidateView.setOnTouchListener(new View.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, MotionEvent event) {
+                            gestureDetector.onTouchEvent(event);
+                            return true;
+                        }
+                    });
                     setSuggestionsAdapter();
             }
 
@@ -134,6 +147,7 @@ public class InputService extends InputMethodService implements KeyboardView.OnK
 
         navigateToSuggestions.setOnClickListener(this);
         navigateToKeyBoard.setOnClickListener(this);
+
     }
 
     private void setUpKeyBoardView() {
@@ -156,18 +170,21 @@ public class InputService extends InputMethodService implements KeyboardView.OnK
     }
 
     private void navigateToSuggestions() {
+        setSuggestionsAdapter();
         keyboardView.setVisibility(View.GONE);
         navigateToSuggestions.setVisibility(View.GONE);
         navigateToKeyBoard.setVisibility(View.VISIBLE);
         suggestionList.setVisibility(View.VISIBLE);
         suggestionList.setMinimumHeight(keyboardView.getHeight());
+        mViewMode = mViewModeSuggestions;
     }
 
-    private void setNavigateToKeyBoard() {
+    private void navigateToKeyBoard() {
         keyboardView.setVisibility(View.VISIBLE);
         navigateToSuggestions.setVisibility(View.VISIBLE);
         navigateToKeyBoard.setVisibility(View.GONE);
         suggestionList.setVisibility(View.GONE);
+        mViewMode = mViewModeKeyBoard;
     }
 
     @Override
@@ -177,7 +194,21 @@ public class InputService extends InputMethodService implements KeyboardView.OnK
             return;
         }
         if(R.id.navigateToKeyBoard == v.getId()){
-            setNavigateToKeyBoard();
+            navigateToKeyBoard();
         }
     }
+    private GestureDetector gestureDetector = new GestureDetector(getApplication(), new GestureDetector.SimpleOnGestureListener() {
+        @Override
+        public boolean onDoubleTap(MotionEvent e) {
+            Log.d("TEST", "onDoubleTap");
+            if(mViewMode == mViewModeKeyBoard){
+                navigateToSuggestions();
+            }else  if(mViewMode == mViewModeSuggestions){
+                navigateToKeyBoard();
+            }
+
+            return super.onDoubleTap(e);
+        }
+    });
+
 }
