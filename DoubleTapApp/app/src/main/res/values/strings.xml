@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">DoubleTapApp</string>
+    <string name="action_settings">Settings</string>
+    <string name="empty_list_msg">There is no words to show. Add new word using +.</string>
+    <string name="btn_save">SAVE</string>
+    <string name="title_add_word">Add New Word</string>
+    <string name="title_edit_word">Edit Word</string>
+    <string name="word_empty_msg">Please add a word to save.</string>
+    <string name="input_service">InputService.</string>
+    <string name="simple_ime">Simple IME</string>
+    <string name="subtype_en_US">English (US)</string>
+</resources>

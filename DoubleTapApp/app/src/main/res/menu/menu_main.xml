@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.example.hp.doubletapapp.MainActivity">
+    <item
+
+        android:id="@+id/action_add_new_word"
+
+        android:orderInCategory="100"
+
+        android:title="User"
+
+        android:icon="@drawable/menu_add"
+
+        app:showAsAction="ifRoom"></item>
+</menu>
