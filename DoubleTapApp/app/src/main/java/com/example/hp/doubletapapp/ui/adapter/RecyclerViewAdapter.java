@@ -37,7 +37,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             super(v);
             mTextView = (TextView) itemView.findViewById(R.id.textViewWord);
             itemLayout =  itemView.findViewById(R.id.itemLayout);
-
+            itemLayout.setOnClickListener(onItemSelect);
         }
 
     }
@@ -56,16 +56,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CustomViewHolder customViewHolder, final int i) {
+    public void onBindViewHolder(@NonNull CustomViewHolder customViewHolder, int i) {
         Log.d("SqliteConnector", "binding  All values = " + mAllWords.get(i).getWord());
-
-        customViewHolder. itemLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selectedWord = mAllWords.get(i);
-                EventBus.getDefault().post(new ClickEvents(EventsMessages.mEventItemSelectedForEditing,mAllWords.get(i)));
-            }
-        });
+        Log.d("SqliteConnector", "binding   i = " + i);
+        selectedWord = mAllWords.get(i);
         customViewHolder.mTextView.setText(mAllWords.get(i).getWord());
     }
 

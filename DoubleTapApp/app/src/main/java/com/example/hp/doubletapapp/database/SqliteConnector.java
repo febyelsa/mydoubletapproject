@@ -71,7 +71,6 @@ public class SqliteConnector {
 
             WordEntity entity = new WordEntity();
             entity.setWord(cursor.getString(cursor.getColumnIndex(SqliteHelper.WordEntry.COLUMN_NAME_TITLE)));
-            entity.setId(cursor.getInt(cursor.getColumnIndex(SqliteHelper.WordEntry._ID)));
             Log.d("SqliteConnector","value from db = " + cursor.getString(cursor.getColumnIndex(SqliteHelper.WordEntry.COLUMN_NAME_TITLE) ));
             wordEntities.add(entity);
         }
